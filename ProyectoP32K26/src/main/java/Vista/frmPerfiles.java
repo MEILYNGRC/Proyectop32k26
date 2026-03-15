@@ -373,3 +373,5 @@ public class frmPerfiles extends javax.swing.JFrame {
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 }
+
+/**/
