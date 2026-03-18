@@ -1,4 +1,3 @@
-//realizado por Herson Giron 
 package Vista;
 
 // Importación de clases necesarias del proyecto
@@ -46,18 +45,19 @@ System.out.println("Lista de registro: " + lista.toString());
 }
 
 //DELETE
-// Se crea un objeto vacío para indicar qué registro se desea eliminar
-Asignacion_Aplicacion_Perfil asignacionEliminar = new Asignacion_Aplicacion_Perfil();
+Asignacion_Aplicacion_Perfil asignacionEliminar = new Asignacion_Aplicacion_Perfil("0", "0", "0", "0", "0");
 // Se asigna el código de la aplicación del registro que se quiere eliminar
-asignacionEliminar.setAplCódigo(2);
-// Se asigna el código del perfil del registro que se quiere eliminar
+asignacionEliminar.setAplCódigo(1);
 asignacionEliminar.setPerCódigo(1);
-// Se consulta el registro en la base de datos antes de eliminarlo
-asignacionEliminar = asignacionDAO.query(asignacionEliminar);
-// Se ejecuta el método delete del DAO para eliminar el registro encontrado
-asignacionDAO.delete(asignacionEliminar);
-// Se imprime en consola el registro que fue eliminado
-System.out.println("Registro eliminado: " + asignacionEliminar.toString());
+// Buscar el registro en la base de datos
+Asignacion_Aplicacion_Perfil encontrado = asignacionDAO.query(asignacionEliminar);
+// Validar antes de eliminar
+if (encontrado != null) {
+    asignacionDAO.delete(encontrado);
+    System.out.println("Registro eliminado: " + encontrado.toString());
+} else {
+    System.out.println("No se encontró el registro a eliminar.");
+}
 
 
 //UPDATE
