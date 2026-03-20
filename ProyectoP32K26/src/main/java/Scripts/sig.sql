@@ -130,12 +130,18 @@ CREATE TABLE IF NOT EXISTS `perfiles` (
 --
 
 CREATE TABLE IF NOT EXISTS `usuario` (
-  `Usucodigo` int(11) NOT NULL,
-  `Usunombre` varchar(100) NOT NULL,
-  `Usucontraseña` varchar(200) NOT NULL,
-  `Usuestado` varchar(100) NOT NULL,
-  PRIMARY KEY (`Usucodigo`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+	usuid INT NOT NULL,
+	usunombre VARCHAR(45) NOT NULL,
+	usucontrasena VARCHAR(25) NOT NULL,
+	usuultimasesion DATE,
+	usuestatus VARCHAR(1) NOT NULL,
+	usunombrereal VARCHAR(60),
+	usucorreoe VARCHAR(60),
+	usutelefono VARCHAR(25),
+	usudireccion VARCHAR(80),
+        tipuid INT NOT NULL,
+	PRIMARY KEY (usuid),
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Ajustes de AUTO_INCREMENT
@@ -151,7 +157,7 @@ ALTER TABLE `perfiles`
 MODIFY `Percodigo` INT(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `usuario`
-MODIFY `Usucodigo` INT(11) NOT NULL AUTO_INCREMENT;
+MODIFY `Usuid` INT(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Filtros para la tabla `asignacionaplicacionperfil`
