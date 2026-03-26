@@ -20,8 +20,7 @@ public class clsUsuario {
     private String UsuCorreo;
     private String UsuTelefono;
     private String UsuDireccion;
-    private int UsuTipo;
-
+    
     public int getUsuId() {
         return UsuId;
     }
@@ -94,15 +93,7 @@ public class clsUsuario {
         this.UsuDireccion = UsuDireccion;
     }
 
-    public int getUsuTipo() {
-        return UsuTipo;
-    }
-
-    public void setUsuTipo(int UsuTipo) {
-        this.UsuTipo = UsuTipo;
-    }
-
-    public clsUsuario(int UsuId, String UsuNombre, String UsuContrasena, String UsuUltimaSesion, String UsuEstatus, String UsuNombreReal, String UsuCorreo, String UsuTelefono, String UsuDireccion, int UsuTipo) {
+    public clsUsuario(int UsuId, String UsuNombre, String UsuContrasena, String UsuUltimaSesion, String UsuEstatus, String UsuNombreReal, String UsuCorreo, String UsuTelefono, String UsuDireccion) {
         this.UsuId = UsuId;
         this.UsuNombre = UsuNombre;
         this.UsuContrasena = UsuContrasena;
@@ -112,8 +103,7 @@ public class clsUsuario {
         this.UsuCorreo = UsuCorreo;
         this.UsuTelefono = UsuTelefono;
         this.UsuDireccion = UsuDireccion;
-        this.UsuTipo = UsuTipo;
-    }
+   }
 
     public clsUsuario(int UsuId, String UsuNombre, String UsuContrasena, String UsuUltimaSesion, String UsuEstatus, String UsuNombreReal, String UsuCorreo, String UsuTelefono) {
         this.UsuId = UsuId;
@@ -180,7 +170,7 @@ public class clsUsuario {
 
     @Override
     public String toString() {
-        return "clsUsuario{" + "UsuId=" + UsuId + ", UsuNombre=" + UsuNombre + ", UsuContrasena=" + UsuContrasena + ", UsuUltimaSesion=" + UsuUltimaSesion + ", UsuEstatus=" + UsuEstatus + ", UsuNombreReal=" + UsuNombreReal + ", UsuCorreo=" + UsuCorreo + ", UsuTelefono=" + UsuTelefono + ", UsuDireccion=" + UsuDireccion + ", UsuTipo=" + UsuTipo + '}';
+        return "clsUsuario{" + "UsuId=" + UsuId + ", UsuNombre=" + UsuNombre + ", UsuContrasena=" + UsuContrasena + ", UsuUltimaSesion=" + UsuUltimaSesion + ", UsuEstatus=" + UsuEstatus + ", UsuNombreReal=" + UsuNombreReal + ", UsuCorreo=" + UsuCorreo + ", UsuTelefono=" + UsuTelefono + ", UsuDireccion=" + UsuDireccion + '}';
     }
 
     

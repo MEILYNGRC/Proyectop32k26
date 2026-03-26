@@ -7,4 +7,4 @@
  * Created: 20/03/2026
  */
  USE sig;
-INSERT INTO `` (`Usuid`,`usunombre`,`usucontrasena`,`usuultimasesion`,`usuestatus`,`usunombrereal`,`usucorreoe`,`usutelefono`,`usudireccion`,`tipuid`) VALUES (1,'admon','MTIzNDU2','2026-01-01','T','Administrador','admon@gmail.com','502-23311017','conocida',1);
+INSERT INTO `usuario` (`Usuid`,`usunombre`,`usucontrasena`,`usuultimasesion`,`usuestatus`,`usunombrereal`,`usucorreoe`,`usutelefono`,`usudireccion`) VALUES (1,'admon','MTIzNDU2','2026-01-01','T','Administrador','admon@gmail.com','502-23311017','conocida');

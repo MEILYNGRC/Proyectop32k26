@@ -55,7 +55,7 @@ int codigoAplicacion=10;
         //VendedorDAO vendedorDAO = new VendedorDAO();
         List<clsUsuario> listaUsuarios = usuario.getListadoUsuarios();
         tablaUsuarios.setModel(modelo);
-        String[] dato = new String[10];
+        String[] dato = new String[9];
         for (int i = 0; i < listaUsuarios.size(); i++) {
             dato[0] = Integer.toString(listaUsuarios.get(i).getUsuId());
             dato[1] = listaUsuarios.get(i).getUsuNombre();
@@ -66,7 +66,7 @@ int codigoAplicacion=10;
             dato[6] = listaUsuarios.get(i).getUsuCorreo();
             dato[7] = listaUsuarios.get(i).getUsuTelefono();
             dato[8] = listaUsuarios.get(i).getUsuDireccion();
-            dato[9] = Integer.toString(listaUsuarios.get(i).getUsuTipo());
+            
             modelo.addRow(dato);
         }       
     }
@@ -115,8 +115,6 @@ int codigoAplicacion=10;
         label10 = new javax.swing.JLabel();
         label11 = new javax.swing.JLabel();
         txtCorreo = new javax.swing.JTextField();
-        txtTipoUsuario = new javax.swing.JTextField();
-        label12 = new javax.swing.JLabel();
         label13 = new javax.swing.JLabel();
         txtDireccion = new javax.swing.JTextField();
         txtConfContraseña = new javax.swing.JTextField();
@@ -252,12 +250,6 @@ int codigoAplicacion=10;
         txtCorreo.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         txtCorreo.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
 
-        txtTipoUsuario.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        txtTipoUsuario.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
-
-        label12.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        label12.setText("Tipo Usuario");
-
         label13.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
         label13.setText("Direccion");
 
@@ -351,13 +343,9 @@ int codigoAplicacion=10;
                                         .addGap(2, 2, 2))
                                     .addComponent(txtTelefono)))
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(label13)
-                                    .addComponent(label12))
-                                .addGap(37, 37, 37)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtTipoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                .addComponent(label13)
+                                .addGap(49, 49, 49)
+                                .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -414,10 +402,6 @@ int codigoAplicacion=10;
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(label13)
                             .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(label12)
-                            .addComponent(txtTipoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnRegistrar)
@@ -460,7 +444,7 @@ int codigoAplicacion=10;
         bitacoraRegistro.setAplcodigo(codigoAplicacion);
         bitacoraRegistro.setBitaccion("DEL");
         BitacoraDAO bitacoradao = new BitacoraDAO();
-        resultadoBitacora = bitacoradao.insert(bitacoraRegistro);            
+        resultadoBitacora = bitacoradao.insert(usuario.getUsuId(), codigoAplicacion, "ACCION");      
         
         limpiarTextos();
     }//GEN-LAST:event_btnEliminarActionPerformed
@@ -481,7 +465,7 @@ int codigoAplicacion=10;
             usuario.setUsuCorreo(txtCorreo.getText());
             usuario.setUsuTelefono(txtTelefono.getText());
             usuario.setUsuDireccion(txtDireccion.getText());
-            usuario.setUsuTipo(Integer.parseInt(txtTipoUsuario.getText()));
+            
             usuario.setIngresarUsuario(usuario);
             JOptionPane.showMessageDialog(null, "Registro Ingresado\n", 
                         "Información del Sistema", JOptionPane.INFORMATION_MESSAGE);
@@ -491,7 +475,7 @@ int codigoAplicacion=10;
             bitacoraRegistro.setAplcodigo(codigoAplicacion);
             bitacoraRegistro.setBitaccion("INS");
             BitacoraDAO bitacoradao = new BitacoraDAO();
-            resultadoBitacora = bitacoradao.insert(bitacoraRegistro);            
+            resultadoBitacora = bitacoradao.insert(usuario.getUsuId(), codigoAplicacion, "INS");         
             llenadoDeTablas();
             limpiarTextos();
         }else{
@@ -523,7 +507,7 @@ int codigoAplicacion=10;
         txtCorreo.setText(usuario.getUsuCorreo());
         txtTelefono.setText(usuario.getUsuTelefono());
         txtDireccion.setText(usuario.getUsuDireccion());
-        txtTipoUsuario.setText(Integer.toString(usuario.getUsuTipo()));
+        
         
         
     }//GEN-LAST:event_btnBuscarActionPerformed
@@ -545,19 +529,15 @@ int codigoAplicacion=10;
         usuario.setUsuCorreo(txtCorreo.getText());
         usuario.setUsuTelefono(txtTelefono.getText());
         usuario.setUsuDireccion(txtDireccion.getText());
-        usuario.setUsuTipo(Integer.parseInt(txtTipoUsuario.getText()));
+        
         usuario.setModificarUsuario(usuario);
         JOptionPane.showMessageDialog(null, "Registro Modificado\n", 
                     "Información del Sistema", JOptionPane.INFORMATION_MESSAGE);        
         llenadoDeTablas();
         
         int resultadoBitacora=0;
-        clsBitacora bitacoraRegistro = new clsBitacora();
-        bitacoraRegistro.setUsucodigo(usuario.getUsuId());
-        bitacoraRegistro.setAplcodigo(codigoAplicacion);
-        bitacoraRegistro.setBitaccion("UPD");
         BitacoraDAO bitacoradao = new BitacoraDAO();
-        resultadoBitacora = bitacoradao.insert(bitacoraRegistro);            
+    resultadoBitacora = bitacoradao.insert(usuario.getUsuId(), codigoAplicacion, "ACCION");
         
         limpiarTextos();
     }//GEN-LAST:event_btnModificarActionPerformed
@@ -578,7 +558,7 @@ int codigoAplicacion=10;
         txtCorreo.setText("");
         txtTelefono.setText("");
         txtDireccion.setText("");
-        txtTipoUsuario.setText("");
+        
     }
     public void habilitarBotones()
     {
@@ -629,7 +609,6 @@ int codigoAplicacion=10;
     private javax.swing.JLabel label1;
     private javax.swing.JLabel label10;
     private javax.swing.JLabel label11;
-    private javax.swing.JLabel label12;
     private javax.swing.JLabel label13;
     private javax.swing.JLabel label3;
     private javax.swing.JLabel label4;
@@ -650,7 +629,6 @@ int codigoAplicacion=10;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtNombreReal;
     private javax.swing.JTextField txtTelefono;
-    private javax.swing.JTextField txtTipoUsuario;
     private javax.swing.JTextField txtUltimaSesion;
     private javax.swing.JTextField txtbuscado;
     // End of variables declaration//GEN-END:variables

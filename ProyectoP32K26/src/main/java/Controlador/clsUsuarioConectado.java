@@ -10,18 +10,18 @@ package Controlador;
  * @author visitante
  */
 public class clsUsuarioConectado {
-    private static int UsuCodigo;
+    private static int UsuId;
     private static String UsuNombre;     
 
     public clsUsuarioConectado() {
     }
 
-    public static int getUsuCodigo() {
-        return UsuCodigo;
+    public static int getUsuId() {
+        return UsuId;
     }
 
-    public static void setUsuCodigo(int UsuCodigo) {
-        clsUsuarioConectado.UsuCodigo = UsuCodigo;
+    public static void setUsuId(int UsuCodigo) {
+        clsUsuarioConectado.UsuId = UsuCodigo;
     }
 
     public static String getUsuNombre() {

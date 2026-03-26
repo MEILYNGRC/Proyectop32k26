@@ -181,7 +181,7 @@ public class frmLogin extends javax.swing.JFrame {
                     "Mensaje de bienvenida", JOptionPane.INFORMATION_MESSAGE);
                     // registrando usuario conectado
                     clsUsuarioConectado usuarioRegistrado = new clsUsuarioConectado();
-                    usuarioRegistrado.setUsuCodigo(usuario.getUsuId());
+                    usuarioRegistrado.setUsuId(usuario.getUsuId());
                     usuarioRegistrado.setUsuNombre(usuario.getUsuNombre());
                     // Registro de Bitacora
                     //** int resultadoBitacora=0;

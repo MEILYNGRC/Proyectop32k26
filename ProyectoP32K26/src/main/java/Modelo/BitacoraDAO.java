@@ -1,4 +1,5 @@
 //Documentación: Astrid Fernanda Ruíz López 9959 24 2976
+//Astrid modificó los métodos y el método insert
 package Modelo;
 
 import Controlador.clsBitacora;
@@ -16,14 +17,14 @@ import java.util.List;
 
 public class BitacoraDAO {
 
-    private static final String SQL_SELECT = "SELECT Bitcodigo, Usucodigo, Aplcodigo, Bitfecha, Bitip, Bitequipo, Bitaccion FROM Bitacora";
-    private static final String SQL_INSERT = "INSERT INTO Bitacora(Usucodigo, Aplcodigo, Bitfecha, Bitip, Bitequipo, Bitaccion) VALUES(?, ?, ?, ?, ?, ?)";
+    private static final String SQL_SELECT = "SELECT Bitcodigo, Usuid, Aplcodigo, Bitfecha, Bitip, Bitequipo, Bitaccion FROM Bitacora";
+    private static final String SQL_INSERT = "INSERT INTO Bitacora(Usuid, Aplcodigo, Bitfecha, Bitip, Bitequipo, Bitaccion) VALUES(?, ?, NOW(), ?, ?, ?)";
     //Se agregaron varios querys para poder buscar por diferentes tipos en la bitacora (ya sea codigo, usuario, fecha,etc) 
-    private static final String SQL_QUERY_POR_CODIGO = "SELECT Bitcodigo, Usucodigo, Aplcodigo, Bitfecha, Bitip, Bitequipo, Bitaccion FROM Bitacora WHERE Bitcodigo=?";
-    private static final String SQL_QUERY_POR_USUARIO = "SELECT Bitcodigo, Usucodigo, Aplcodigo, Bitfecha, Bitip, Bitequipo, Bitaccion FROM Bitacora WHERE Usucodigo=?";
-    private static final String SQL_QUERY_POR_APLICACION = "SELECT Bitcodigo, Usucodigo, Aplcodigo, Bitfecha, Bitip, Bitequipo, Bitaccion FROM Bitacora WHERE Aplcodigo=?";
-    private static final String SQL_QUERY_POR_FECHAS = "SELECT Bitcodigo, Usucodigo, Aplcodigo, Bitfecha, Bitip, Bitequipo, Bitaccion FROM Bitacora WHERE Bitfecha BETWEEN ? AND ?"; //between y and para buscar desde el inicio d fecha que el usuario seleccione hasta el final (el intervalo d fechas)
-    private static final String SQL_QUERY_POR_ACCION = "SELECT Bitcodigo, Usucodigo, Aplcodigo, Bitfecha, Bitip, Bitequipo, Bitaccion FROM Bitacora WHERE Bitaccion=?";
+    private static final String SQL_QUERY_POR_CODIGO = "SELECT Bitcodigo, Usuid, Aplcodigo, Bitfecha, Bitip, Bitequipo, Bitaccion FROM Bitacora WHERE Bitcodigo=?";
+    private static final String SQL_QUERY_POR_USUARIO = "SELECT Bitcodigo, Usuid, Aplcodigo, Bitfecha, Bitip, Bitequipo, Bitaccion FROM Bitacora WHERE Usuid=?";
+    private static final String SQL_QUERY_POR_APLICACION = "SELECT Bitcodigo, Usuid, Aplcodigo, Bitfecha, Bitip, Bitequipo, Bitaccion FROM Bitacora WHERE Aplcodigo=?";
+    private static final String SQL_QUERY_POR_FECHAS = "SELECT Bitcodigo, Usuid, Aplcodigo, Bitfecha, Bitip, Bitequipo, Bitaccion FROM Bitacora WHERE Bitfecha BETWEEN ? AND ?"; //between y and para buscar desde el inicio d fecha que el usuario seleccione hasta el final (el intervalo d fechas)
+    private static final String SQL_QUERY_POR_ACCION = "SELECT Bitcodigo, Usuid, Aplcodigo, Bitfecha, Bitip, Bitequipo, Bitaccion FROM Bitacora WHERE Bitaccion=?";
 
 
     // SELECT (trae todos los registros) 
@@ -69,20 +70,18 @@ public class BitacoraDAO {
             while (rs.next()) {
                 //valores de cada columna del ResultSet
                 int Bitcodigo    = rs.getInt("Bitcodigo");
-                int Usucodigo    = rs.getInt("Usucodigo");
+                int Usuid    = rs.getInt("Usuid");
                 int Aplcodigo    = rs.getInt("Aplcodigo");
-                Timestamp ts     = rs.getTimestamp("Bitfecha");
+                String Bitfecha  = rs.getString("Bitfecha");
                 String Bitip     = rs.getString("Bitip");
                 String Bitequipo = rs.getString("Bitequipo");
                 String Bitaccion = rs.getString("Bitaccion");
 
                 bitacora = new clsBitacora();
                 bitacora.setBitcodigo(Bitcodigo);
-                bitacora.setUsucodigo(Usucodigo);
+                bitacora.setUsucodigo(Usuid);
                 bitacora.setAplcodigo(Aplcodigo);
-                
-                //conversión de Timestamp a LocalDateTime
-                if (ts != null) bitacora.setBitfecha(ts.toLocalDateTime());
+                bitacora.setBitfecha(Bitfecha);
                 bitacora.setBitip(Bitip);
                 bitacora.setBitequipo(Bitequipo);
                 bitacora.setBitaccion(Bitaccion);
@@ -100,7 +99,7 @@ public class BitacoraDAO {
     }
 
     // Isert
-    public int insert(clsBitacora bitacora) {
+    public int insert(int Usuid, int Aplcodigo, String Bitaccion) {
         Connection conn = null;
         PreparedStatement stmt = null;
         String ipAsignada;
@@ -119,12 +118,12 @@ public class BitacoraDAO {
                 }                           
             //asignación d valores a los parametros
             stmt = conn.prepareStatement(SQL_INSERT);
-            stmt.setInt(1, bitacora.getUsucodigo());
-            stmt.setInt(2, bitacora.getAplcodigo());
-            stmt.setTimestamp(3, Timestamp.valueOf(fechaActual())); //se convierte la fecha a Timestamp, ese timestamp se envía a la base d datos
-            stmt.setString(4, ipAsignada);
-            stmt.setString(5, nombrepcAsignada);
-            stmt.setString(6, bitacora.getBitaccion());
+            stmt = conn.prepareStatement(SQL_INSERT);
+            stmt.setInt(1, Usuid);
+            stmt.setInt(2, Aplcodigo);
+            stmt.setString(3, ipAsignada);
+            stmt.setString(4, nombrepcAsignada);
+            stmt.setString(5,  Bitaccion);
 
             System.out.println("Ejecutando query: " + SQL_INSERT);
             rows = stmt.executeUpdate();
@@ -153,18 +152,18 @@ public class BitacoraDAO {
             rs = stmt.executeQuery();
             while (rs.next()) {
                 int Bitcodigo    = rs.getInt("Bitcodigo");
-                int Usucodigo    = rs.getInt("Usucodigo");
+                int Usuid    = rs.getInt("Usuid");
                 int Aplcodigo    = rs.getInt("Aplcodigo");
-                Timestamp ts     = rs.getTimestamp("Bitfecha");
+                String Bitfecha = rs.getString("Bitfecha");
                 String Bitip     = rs.getString("Bitip");
                 String Bitequipo = rs.getString("Bitequipo");
                 String Bitaccion = rs.getString("Bitaccion");
 
                 bitacora = new clsBitacora();
                 bitacora.setBitcodigo(Bitcodigo);
-                bitacora.setUsucodigo(Usucodigo);
+                bitacora.setUsucodigo(Usuid);
                 bitacora.setAplcodigo(Aplcodigo);
-                if (ts != null) bitacora.setBitfecha(ts.toLocalDateTime());
+                bitacora.setBitfecha(Bitfecha); 
                 bitacora.setBitip(Bitip);
                 bitacora.setBitequipo(Bitequipo);
                 bitacora.setBitaccion(Bitaccion);
@@ -182,7 +181,7 @@ public class BitacoraDAO {
     //Se hace el mismo proceso para los demás querys: ejecutar la consulta, recorrer el ResultSet, convertir cada registro en un objeto Bitacora y agregarlo a una lista.
     
     // Query por usuario
-    public List<clsBitacora> queryPorUsuario(int Usucodigo) {
+    public List<clsBitacora> queryPorUsuario(int Usuid) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -193,22 +192,22 @@ public class BitacoraDAO {
             conn = Conexion.getConnection();
             System.out.println("Ejecutando query: " + SQL_QUERY_POR_USUARIO);
             stmt = conn.prepareStatement(SQL_QUERY_POR_USUARIO);
-            stmt.setInt(1, Usucodigo);
+            stmt.setInt(1, Usuid);
             rs = stmt.executeQuery();
             while (rs.next()) {
                 int Bitcodigo    = rs.getInt("Bitcodigo");
-                int usu          = rs.getInt("Usucodigo");
+                int usu          = rs.getInt("Usuid");
                 int Aplcodigo    = rs.getInt("Aplcodigo");
-                Timestamp ts     = rs.getTimestamp("Bitfecha");
+                String Bitfecha  = rs.getString("Bitfecha");
                 String Bitip     = rs.getString("Bitip");
                 String Bitequipo = rs.getString("Bitequipo");
                 String Bitaccion = rs.getString("Bitaccion");
 
                 bitacora = new clsBitacora();
                 bitacora.setBitcodigo(Bitcodigo);
-                bitacora.setUsucodigo(usu);
+                bitacora.setUsucodigo(Usuid);
                 bitacora.setAplcodigo(Aplcodigo);
-                if (ts != null) bitacora.setBitfecha(ts.toLocalDateTime());
+                bitacora.setBitfecha(Bitfecha);
                 bitacora.setBitip(Bitip);
                 bitacora.setBitequipo(Bitequipo);
                 bitacora.setBitaccion(Bitaccion);
@@ -241,18 +240,18 @@ public class BitacoraDAO {
             rs = stmt.executeQuery();
             while (rs.next()) {
                 int Bitcodigo    = rs.getInt("Bitcodigo");
-                int Usucodigo    = rs.getInt("Usucodigo");
+                int Usuid    = rs.getInt("Usuid");
                 int apl          = rs.getInt("Aplcodigo");
-                Timestamp ts     = rs.getTimestamp("Bitfecha");
+                String Bitfecha  = rs.getString("Bitfecha");
                 String Bitip     = rs.getString("Bitip");
                 String Bitequipo = rs.getString("Bitequipo");
                 String Bitaccion = rs.getString("Bitaccion");
 
                 bitacora = new clsBitacora();
                 bitacora.setBitcodigo(Bitcodigo);
-                bitacora.setUsucodigo(Usucodigo);
+                bitacora.setUsucodigo(Usuid);
                 bitacora.setAplcodigo(apl);
-                if (ts != null) bitacora.setBitfecha(ts.toLocalDateTime());
+                bitacora.setBitfecha(Bitfecha);
                 bitacora.setBitip(Bitip);
                 bitacora.setBitequipo(Bitequipo);
                 bitacora.setBitaccion(Bitaccion);
@@ -286,20 +285,18 @@ public class BitacoraDAO {
             rs = stmt.executeQuery();
             while (rs.next()) {
                 int Bitcodigo    = rs.getInt("Bitcodigo");
-                int Usucodigo    = rs.getInt("Usucodigo");
+                int Usuid    = rs.getInt("Usuid");
                 int Aplcodigo    = rs.getInt("Aplcodigo");
-                //Se obtiene la fecha desde la base de datos en formato sql
-                Timestamp ts     = rs.getTimestamp("Bitfecha");
+                String Bitfecha  = rs.getString("Bitfecha");
                 String Bitip     = rs.getString("Bitip");
                 String Bitequipo = rs.getString("Bitequipo");
                 String Bitaccion = rs.getString("Bitaccion");
 
                 bitacora = new clsBitacora();
                 bitacora.setBitcodigo(Bitcodigo);
-                bitacora.setUsucodigo(Usucodigo);
+                bitacora.setUsucodigo(Usuid);
                 bitacora.setAplcodigo(Aplcodigo);
-                //Se convierte el timestamp al formato de java (localtime) para poder manejar la fecha aquí 
-                if (ts != null) bitacora.setBitfecha(ts.toLocalDateTime());
+                bitacora.setBitfecha(Bitfecha);
                 bitacora.setBitip(Bitip);
                 bitacora.setBitequipo(Bitequipo);
                 bitacora.setBitaccion(Bitaccion);
@@ -332,18 +329,18 @@ public class BitacoraDAO {
             rs = stmt.executeQuery();
             while (rs.next()) {
                 int Bitcodigo    = rs.getInt("Bitcodigo");
-                int Usucodigo    = rs.getInt("Usucodigo");
+                int Usuid    = rs.getInt("Usuid");
                 int Aplcodigo    = rs.getInt("Aplcodigo");
-                Timestamp ts     = rs.getTimestamp("Bitfecha");
+                String Bitfecha  = rs.getString("Bitfecha");
                 String Bitip     = rs.getString("Bitip");
                 String Bitequipo = rs.getString("Bitequipo");
                 String Bitaccion2 = rs.getString("Bitaccion");
 
                 bitacora = new clsBitacora();
                 bitacora.setBitcodigo(Bitcodigo);
-                bitacora.setUsucodigo(Usucodigo);
+                bitacora.setUsucodigo(Usuid);
                 bitacora.setAplcodigo(Aplcodigo);
-                if (ts != null) bitacora.setBitfecha(ts.toLocalDateTime());
+                bitacora.setBitfecha(Bitfecha);
                 bitacora.setBitip(Bitip);
                 bitacora.setBitequipo(Bitequipo);
                 bitacora.setBitaccion(Bitaccion2);
